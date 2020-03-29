@@ -48,6 +48,11 @@ public class Welcome_page extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton2.setText("ADMIN LOGIN");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         sign_upBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         sign_upBtn.setText("SIGN UP");
@@ -111,6 +116,13 @@ public class Welcome_page extends javax.swing.JFrame {
         ob.setVisible(true);
         dispose();
     }//GEN-LAST:event_libSignTbxActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        AdminLoginPage ob = new AdminLoginPage();
+        ob.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

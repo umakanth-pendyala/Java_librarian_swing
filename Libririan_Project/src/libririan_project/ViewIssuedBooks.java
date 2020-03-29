@@ -104,11 +104,11 @@ public class ViewIssuedBooks extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String url = "jdbc:mysql://localhost:3306/librarian";
+        //String url = "jdbc:mysql://localhost:3306/librarian";
         String tableName = "";
         int tableId;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            /*Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, "root", "root");
             Statement sp = con.createStatement();
             ResultSet rs = sp.executeQuery("SELECT * FROM LoginDataBase WHERE Password = '"+Lib_SignForm.passcode+"'");
@@ -119,7 +119,24 @@ public class ViewIssuedBooks extends javax.swing.JFrame {
             }
             while (rs.next())  {
                 dispAbx.setText("id :\t" + rs.getString("User_Id") + "\tbook name :\t" + rs.getString("Book_Given") + "\n");
+            }*/
+            
+            if (arbiter.Connector.getConnection()) {
+                int index = arbiter.Connector.getIndexCorrespondingToPassword();
+                if (index > -1) {
+                    tableName = "recipants_" + Integer.toString(index);
+                    ResultSet rs = arbiter.Connector.getRecipantTable(tableName);
+                    rs.beforeFirst();
+                    while (rs.next()) {
+                        dispAbx.setText(dispAbx.getText() + "id of user :\t" + rs.getString("User_Id") + "\tbook name :\t" + rs.getString("Book_Given") + "\n");
+                    }
+                }
             }
+            
+            else {
+                errMsg.setText("data base error");
+            }
+            
         } catch (Exception e) {
             errMsg.setText("sorry 404 error");
         }

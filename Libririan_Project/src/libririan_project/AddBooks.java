@@ -111,14 +111,14 @@ public class AddBooks extends javax.swing.JFrame {
             if (arbiter.Connector.getConnection()){
             String uri = "jdbc:mysql://localhost:3306/librarian";
             String tableId = "", tableName = "";
-            String password = Lib_SignForm.passcode;
+            String password = arbiter.Connector.getPassword();
                 try {
                     
                     /*Class.forName("com.mysql.jdbc.Driver");
                     Connection con = DriverManager.getConnection(uri, "root", "root");
                     Statement sp = con.createStatement();*/
                       
-                    ResultSet rs = arbiter.Connector.returnStatement().executeQuery("SELECT * FROM LoginDataBase WHERE Password = '"+password+"'");
+                    /*ResultSet rs = arbiter.Connector.returnStatement().executeQuery("SELECT * FROM LoginDataBase WHERE Password = '"+password+"'");
                     
                     if (rs.next()) {
                         
@@ -133,7 +133,24 @@ public class AddBooks extends javax.swing.JFrame {
                         
                         //
                     }
-                    else errMsg.setText("unfortunate error occured");
+                    else errMsg.setText("unfortunate error occured");*/
+                    
+                    
+                    int index = arbiter.Connector.getIndexCorrespondingToPassword();
+                    
+                    if (index > -1) {
+                        shelfName = "shelf_" + Integer.toString(index);
+                        if (arbiter.Connector.insertIntoShelfTable(shelfName, bookTbx.getText())) {
+                            errMsg.setText("the book is added to shelf successfully");
+                        }
+                        else {
+                            errMsg.setText("the book is not added to shelf");
+                        }
+                    }
+                    else {
+                        errMsg.setText("sorry book not added to shelf");
+                    }
+                                        
                     //        
                 }catch(Exception e) {
                     errMsg.setText("exception detail :" + e.getMessage());

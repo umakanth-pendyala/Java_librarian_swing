@@ -146,8 +146,9 @@ public class Lib_SignForm extends javax.swing.JFrame {
             Statement sp = con.createStatement();*/
             
             if (arbiter.Connector.getConnection()) {
-            
-                ResultSet rs = arbiter.Connector.returnStatement().executeQuery("SELECT * FROM LoginDataBase WHERE Email_Id = '"+mailTbx.getText()+"'AND Password = '"+passTbx.getText()+"'");
+                // -------------------------------------------------------------
+                
+                /*ResultSet rs = arbiter.Connector.returnStatement().executeQuery("SELECT * FROM LoginDataBase WHERE Email_Id = '"+mailTbx.getText()+"'AND Password = '"+passTbx.getText()+"'");
                 rs.beforeFirst();
                 if (rs.next()) {
                     errMsg.setText("your login is successfull");
@@ -155,12 +156,29 @@ public class Lib_SignForm extends javax.swing.JFrame {
                 }
                 else errMsg.setText("detail :" + rs.getString("Name") + passTbx.getText());
                 if (loggedIn == true) {
-                    passcode = passTbx.getText();
+                   
                     LibririanForm ob = new LibririanForm();
                     ob.setVisible(true);
                     dispose();
                     loggedIn = false;
+                }*/
+                
+                //--------------------------------------------------------------
+                
+                if (arbiter.Connector.checkAccountInLoginDataBase(mailTbx.getText(), passTbx.getText())) {
+                    passcode = passTbx.getText();
+                    errMsg.setText("your login is successfull");
+                    LibririanForm ob = new LibririanForm();
+                    ob.setVisible(true);
+                    dispose();
+                    arbiter.Connector.setPassword(passcode);
                 }
+                else {
+                    errMsg.setText("sorry your account is not there in data base");
+                }
+                
+                
+                
                 //
             }
         }catch (Exception e) {
@@ -176,6 +194,9 @@ public class Lib_SignForm extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 
+    static String getPassword () {
+        return passcode;
+    }
     
     
     public static void main(String args[]) {
