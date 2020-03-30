@@ -127,11 +127,11 @@ public class ReturnBookForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String url = "jdbc:mysql://localhost:3306/librarian";
+        //String url = "jdbc:mysql://localhost:3306/librarian";
         String Shelf_tableName = "", recipantTable = "";
         int TableId;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            /*Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, "root", "root");
             Statement sp = con.createStatement();
             ResultSet rs = sp.executeQuery("SELECT * FROM LoginDataBase WHERE Password = '"+Lib_SignForm.passcode+"'");
@@ -147,7 +147,42 @@ public class ReturnBookForm extends javax.swing.JFrame {
             }
             else {
                 errMsg.setText("sorry its not from this shelf");
+            }*/
+            
+            if (arbiter.Connector.getConnection()) {
+                int index = arbiter.Connector.getIndexCorrespondingToPassword();
+                
+                
+                if (index > -1) {
+                    
+                    Shelf_tableName = "shelf_" + Integer.toString(index);
+                    recipantTable = "recipants_" + Integer.toString(index);
+                    
+                    if (arbiter.Connector.deleteFromRecipantTable(recipantTable, nameTbx.getText(), idTbx.getText())) {
+                        
+                        if (arbiter.Connector.insertIntoShelfTable(Shelf_tableName, nameTbx.getText())) {
+                            errMsg.setText("thank you !! visit again");
+                        }
+                        else {
+                            errMsg.setText("sorry book not from this shelf");
+                        }
+                    }
+                    else {
+                        errMsg.setText("sorry your id or book name is in correct(not from shelf)");
+                    }
+                }
+                else {
+                
+                    errMsg.setText("sorry not from this shelf");
+                
+                }
+                
             }
+            else {
+                errMsg.setText("sorry database error occured");
+            }
+            
+            
         } catch(Exception e) {
             errMsg.setText("sorry its not from this shelf");
         }

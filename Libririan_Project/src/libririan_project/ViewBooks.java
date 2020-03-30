@@ -115,22 +115,31 @@ public class ViewBooks extends javax.swing.JFrame {
         String url = "jdbc:mysql://localhost:3306/librarian";
         String tableName = "";
         int tableId;
-        String password = Lib_SignForm.passcode;
+        
+        
+        String password = arbiter.Connector.getPassword();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            
+            /*Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, "root", "root");
-            Statement sp = con.createStatement();
+            Statement sp = con.createStatement();*/
             dispAbx.setText("");
             
-            ResultSet rs = sp.executeQuery("SELECT * FROM LoginDataBase WHERE Password = '"+password+"'");
-            if (rs.next()) {
-                tableId = rs.getInt("Indexes");
-                tableName = "shelf_" + Integer.toString(tableId);
-            }
-            rs = sp.executeQuery("SELECT * FROM "+ tableName);
+            if (arbiter.Connector.getConnection()) {
             
-            while (rs.next()) {
-                dispAbx.setText(dispAbx.getText() + "\nbook name :  " +rs.getString("Books_Present"));
+            //ResultSet rs = sp.executeQuery("SELECT * FROM LoginDataBase WHERE Password = '"+password+"'");
+            
+                int index = arbiter.Connector.getIndexCorrespondingToPassword();
+            
+                if (index > -1) {
+                    tableId = index;
+                    tableName = "shelf_" + Integer.toString(tableId);
+                }
+                
+                ResultSet rs = arbiter.Connector.getShelf(tableName);
+                while (rs.next()) {
+                    dispAbx.setText(dispAbx.getText() + "\nbook name :  " +rs.getString("Books_Present"));
+                }
             }
         }catch (Exception e) {
             errMsg.setText("exception detail :" + e.getMessage());

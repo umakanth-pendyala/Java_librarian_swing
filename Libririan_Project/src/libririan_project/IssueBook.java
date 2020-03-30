@@ -129,15 +129,18 @@ public class IssueBook extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String url = "jdbc:mysql://localhost:3306/librarian";
-        String password = "";
+        //String url = "jdbc:mysql://localhost:3306/librarian";
+        //String password = "";
         String Shelf_tableName = "", recipantTable = "";
         int TableId;
         try {
-            password = Lib_SignForm.passcode;
+            /*password = Lib_SignForm.passcode;
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, "root", "root");
             Statement sp = con.createStatement();
+            
+            
+            
             ResultSet rs = sp.executeQuery("SELECT * FROM LoginDataBase WHERE Password = '"+password+"'");
             if (rs.next()) {
                 TableId = rs.getInt("Indexes");
@@ -151,7 +154,25 @@ public class IssueBook extends javax.swing.JFrame {
             }
             else {
                 errMsg.setText("sorry that book is not found");
+            }*/
+            
+            if (arbiter.Connector.getConnection()) {
+                int index = arbiter.Connector.getIndexCorrespondingToPassword();
+                if (index > -1) {
+                    Shelf_tableName = "shelf_" + Integer.toString(index);  // here index = table id (shelf id)
+                    recipantTable = "recipants_" + Integer.toString(index); // index  = recipant id
+                    if (arbiter.Connector.deleteFromShelfTable(Shelf_tableName, bookTbx.getText())) {
+                        if (arbiter.Connector.insertBookIntoRecipantTable(recipantTable, idTbx.getText(), bookTbx.getText())) {
+                            errMsg.setText("thank you !! visit again");
+                        }
+                    }
+                    else {
+                        errMsg.setText("sorry that book is not found");
+                    }
+                }
+                
             }
+            
             
         } catch (Exception e) {
             errMsg.setText("exception detail : " + e.getMessage());

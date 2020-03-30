@@ -141,26 +141,47 @@ public class Lib_SignForm extends javax.swing.JFrame {
         }
         else {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            /*Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, "root", "root");
-            Statement sp = con.createStatement();
-            ResultSet rs = sp.executeQuery("SELECT * FROM LoginDataBase WHERE Email_Id = '"+mailTbx.getText()+"'AND Password = '"+passTbx.getText()+"'");
-            rs.beforeFirst();
-            if (rs.next()) {
-                errMsg.setText("your login is successfull");
-                loggedIn = true;
+            Statement sp = con.createStatement();*/
+            
+            if (arbiter.Connector.getConnection()) {
+                // -------------------------------------------------------------
+                
+                /*ResultSet rs = arbiter.Connector.returnStatement().executeQuery("SELECT * FROM LoginDataBase WHERE Email_Id = '"+mailTbx.getText()+"'AND Password = '"+passTbx.getText()+"'");
+                rs.beforeFirst();
+                if (rs.next()) {
+                    errMsg.setText("your login is successfull");
+                    loggedIn = true;
+                }
+                else errMsg.setText("detail :" + rs.getString("Name") + passTbx.getText());
+                if (loggedIn == true) {
+                   
+                    LibririanForm ob = new LibririanForm();
+                    ob.setVisible(true);
+                    dispose();
+                    loggedIn = false;
+                }*/
+                
+                //--------------------------------------------------------------
+                
+                if (arbiter.Connector.checkAccountInLoginDataBase(mailTbx.getText(), passTbx.getText())) {
+                    passcode = passTbx.getText();
+                    errMsg.setText("your login is successfull");
+                    LibririanForm ob = new LibririanForm();
+                    ob.setVisible(true);
+                    dispose();
+                    arbiter.Connector.setPassword(passcode);
+                }
+                else {
+                    errMsg.setText("sorry your account is not there in data base");
+                }
+                
+                
+                
+                //
             }
-            else {
-                errMsg.setText("detail :" + rs.getString("Name") + passTbx.getText());
-            }
-            if (loggedIn == true) {
-                passcode = passTbx.getText();
-                LibririanForm ob = new LibririanForm();
-                ob.setVisible(true);
-                dispose();
-                loggedIn = false;
-            }
-        } catch (Exception e) {
+        }catch (Exception e) {
             errMsg.setText("exception detail : invalid login details please check");
         }
         }
@@ -173,9 +194,11 @@ public class Lib_SignForm extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    static String getPassword () {
+        return passcode;
+    }
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

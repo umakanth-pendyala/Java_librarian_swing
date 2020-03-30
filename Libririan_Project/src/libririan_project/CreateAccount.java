@@ -193,34 +193,55 @@ public class CreateAccount extends javax.swing.JFrame {
         
         if (!(gender.equals("") || nameTbx.getText().equals("") || emailTbx.getText().equals("") || passTbx.getPassword().equals(""))) {
             try {
-            Class.forName("com.mysql.jdbc.Driver");
+            /*Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, "root", "root");
-            Statement sp = con.createStatement();
+            Statement sp = con.createStatement();*/
+                if (arbiter.Connector.getConnection()) {
+                    
+                    if (arbiter.Connector.getEmptyRecipantTableId() > 0) {
+                        index = arbiter.Connector.getEmptyRecipantTableId();
+                        arbiter.Connector.insertIntoLoginDataBase(emailTbx.getText(), passTbx.getText(), nameTbx.getText(), gender, index);
+                        arbiter.Connector.createCustomerTableWithName(Integer.toString(index));
+                        errMsg.setText("login successfull go back to login page");
+                    }
+                    
+                    else {
+                        try {
+                            //ResultSet rs = arbiter.Connector.returnStatement().executeQuery("SELECT MAX( Indexes ) AS max_index FROM LoginDataBase");
+                            ResultSet rs = arbiter.Connector.getMaxIndexFromLoginDataBase();
+                            if (rs.next()) {
+                                temp = rs.getInt("max_index");
+                                index = rs.getInt("max_index") + 1;
+                            }
+                            else index = 0;
+                        }catch (Exception e) {        
+                            index = 1;
+                            errMsg.setText("some exception occured");                       
+                        }
             
-            try {
-                ResultSet rs = sp.executeQuery("SELECT MAX( Indexes ) AS max_index FROM LoginDataBase");
-                if (rs.next()) {
-                    temp = rs.getInt("max_index");
-                    index = rs.getInt("max_index") + 1;
+                        /*int i = arbiter.Connector.returnStatement().executeUpdate("INSERT INTO LoginDataBase VALUES('"+emailTbx.getText()+"','"+passTbx.getText()+"','"+nameTbx.getText()+"','"+gender+"', "+index+")");            
+                        if (i > 0) errMsg.setText("login successfull ! now return to home page");
+                        else errMsg.setText("sorry login not successful");*/
+           
+                        if (arbiter.Connector.insertIntoLoginDataBase(emailTbx.getText(), passTbx.getText(), nameTbx.getText(), gender,index)) {
+                            errMsg.setText("sign up successfull !! return to home page");
+                            arbiter.Connector.createShelfTableWithName(Integer.toString(index));
+                            arbiter.Connector.createCustomerTableWithName(Integer.toString(index));
+                        }
+                        else {
+                            errMsg.setText("sorry login not successfull");
+                        }
+
+                        //sp.execute("CREATE TABLE '"+emailTbx.getText()+"'(Index int(50), Books_given varchar(50))");
+                        //arbiter.Connector.returnStatement().execute("CREATE TABLE shelf_"+ Integer.toString(index) +" (Books_Present varchar(50))");
+                        //arbiter.Connector.returnStatement().execute("CREATE TABLE recipants_"+ Integer.toString(index) +" (User_Id varchar(50), Book_Given varchar(50))");
+                    
+
+                    }
+                    
+                    //
                 }
-                else {
-                    index = 0;
-                }
-            } catch (Exception e) {        
-                index = 1;
-                errMsg.setText("some exception occured");                       
-            }
-            
-            int i = sp.executeUpdate("INSERT INTO LoginDataBase VALUES('"+emailTbx.getText()+"','"+passTbx.getText()+"','"+nameTbx.getText()+"','"+gender+"', "+index+")");
-            
-            
-            if (i > 0) errMsg.setText("login successfull ! now return to home page");
-            else errMsg.setText("sorry login not successful");
-            
-            //sp.execute("CREATE TABLE '"+emailTbx.getText()+"'(Index int(50), Books_given varchar(50))");
-            sp.execute("CREATE TABLE shelf_"+ Integer.toString(index) +" (Books_Present varchar(50))");
-            sp.execute("CREATE TABLE recipants_"+ Integer.toString(index) +" (User_Id varchar(50), Book_Given varchar(50))");
-            } catch (Exception e) {
+            }catch (Exception e) {
                 errMsg.setText("Exception detail :" + e.getMessage() + temp);
             }
         }
@@ -230,15 +251,15 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_createBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-        // TODO add your handling code here:
+       
+        
         Welcome_page ob = new Welcome_page();
         ob.setVisible(true);
         dispose();
+        
+        
     }//GEN-LAST:event_backBtnActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

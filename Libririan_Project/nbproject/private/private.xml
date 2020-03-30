@@ -3,12 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/AdminLoginPage.java</file>
+            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/AdminDetailsForm.java</file>
             <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/Welcome_page.java</file>
-            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/AdminForm.java</file>
+            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/ViewBooks.java</file>
+            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/View_Librarians.java</file>
             <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/Lib_SignForm.java</file>
             <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/CreateAccount.java</file>
-            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/LibririanForm.java</file>
+            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/ReturnBookForm.java</file>
+            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/IssueBook.java</file>
+            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/ViewIssuedBooks.java</file>
             <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/AddBooks.java</file>
+            <file>file:/D:/java%20projects/Libririan_Project/src/arbiter/Connector.java</file>
+            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/AdminForm.java</file>
+            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/RemoveLibrarians.java</file>
+            <file>file:/D:/java%20projects/Libririan_Project/src/libririan_project/LibririanForm.java</file>
         </group>
     </open-files>
 </project-private>
